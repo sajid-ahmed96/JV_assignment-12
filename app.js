@@ -57,7 +57,13 @@ window.save = function () {
     // console.log(obj);
     obj.id = Math.random().toString().slice(2);
     const regref = ref(database, `RegForm/${obj.id}`);
-    set(regref, obj);
+    set(regref, obj)
+        .then(function () {
+            window.location.assign('home.html')
+        })
+        .catch(function (err) {
+            console.log(err)
+        })
     clearAll();
 }
 
@@ -67,10 +73,10 @@ function getData() {
     onChildAdded(regref, function (dt) {
         dataList.push(dt.val());
         console.log(dataList);
-        parent.innerHTML += "";
+        parent.innerHTML = "";
         for (var i = 0; i < dataList.length; i++) {
-            parent.innerHTML = "";
-            parent.innerHTML = `<li>First Name: ${dataList[i].firstName}</li>`
+            parent.innerHTML += "";
+            parent.innerHTML += `<li>First Name: ${dataList[i].firstName}</li>`
             parent.innerHTML += `<li>Last Name: ${dataList[i].lastName}</li>`
             parent.innerHTML += `<li>Email: ${dataList[i].email}</li>`
             parent.innerHTML += `<li>Password: ${dataList[i].password}</li>`
